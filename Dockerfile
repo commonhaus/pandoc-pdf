@@ -14,5 +14,6 @@ RUN  apt-get -qq update \
 ENV PATH="${PATH}:/usr/local/lib/node_modules/marked-it-cli/bin"
 RUN npm install -g marked-it-cli \
   && npm install -g npm \
+  && npm install -g bower \
   && echo 'export PATH=$PATH:/usr/local/lib/node_modules/marked-it-cli/bin' >> /etc/bash.bashrc
 
