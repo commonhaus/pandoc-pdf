@@ -1,0 +1,25 @@
+#!/bin/bash
+
+WORKING_DIR=$(pwd)
+echo WORKING_DIR=${WORKING_DIR}
+
+# create location for node 
+mkdir -p ${WORKING_DIR}/node_modules/.home
+HOME=${WORKING_DIR}/node_modules/.home
+
+PKG_LAST=${WORKING_DIR}/node_modules/package.last
+CURRENT=${WORKING_DIR}/package.json
+
+# Used when building inside a Docker image!
+if [ ! -f ${CURRENT} ]; then
+  echo "You forgot to mount the volume, see README.md"
+else
+  if [ ! -f "${PKG_LAST}" ] || ! diff "${CURRENT}" "${PKG_LAST}"
+  then
+    npm install
+    cp -f "package.json" "${PKG_LAST}"
+  fi
+fi
+
+echo "Command: $@"
+exec $@

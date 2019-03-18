@@ -11,6 +11,10 @@ RUN  apt-get -qq update \
   && apt-get -qq clean \
   && rm -rf /tmp/* /var/lib/apt/lists/*
 
+RUN wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.4/wkhtmltox-0.12.4_linux-generic-amd64.tar.xz \
+  && tar xvf wkhtmltox-0.12.4_linux-generic-amd64.tar.xz \
+  && mv wkhtmltox/bin/* /usr/local/bin
+
 ENV PATH="${PATH}:/usr/local/lib/node_modules/marked-it-cli/bin"
 RUN npm install -g marked-it-cli \
   && npm install -g npm \
@@ -19,3 +23,4 @@ RUN npm install -g marked-it-cli \
   && npm install -g sass \
   && echo 'export PATH=$PATH:/usr/local/lib/node_modules/marked-it-cli/bin' >> /etc/bash.bashrc
 
+COPY npm_wrap /usr/local/bin
