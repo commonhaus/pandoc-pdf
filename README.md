@@ -1,17 +1,29 @@
 # Pandoc + Emoji filter
 
-https://github.com/Surnet/docker-wkhtmltopdf
 
-https://gist.github.com/zr-tex8r/a5410ad20ab291c390884b960c900537
-Basic Usage
+```tex
+\directlua{luaotfload.add_fallback
+   ("emojifallback",
+    {
+      "NotoColorEmoji:mode=harf;"
+    }
+   )}
+% Setting the main font to IBM Plex Sans
+\setmainfont{IBMPlexSans-Regular}[
+  Extension      = .otf ,
+  BoldFont       = IBMPlexSans-Bold,
+  ItalicFont     = IBMPlexSans-Italic,
+  BoldItalicFont = IBMPlexSans-BoldItalic,
+  RawFeature={fallback=emojifallback}
+]
 
-- Specify the lua filter with -L latex-emoji.lua.
-- Enable emoji extension with -f markdown+emoji.
-- Compile the resulted LaTeX document with LuaLaTeX of a very new TeX system (e.g. TeX Live 2020).
-
-
-https://stackoverflow.com/questions/60057064/pandoc-with-emoji-and-pictographs
-Emoji Filter: https://github.com/masbicudo/Pandoc-Emojis-Filter
-PR from: https://github.com/masbicudo/Pandoc-Emojis-Filter/pull/3
+% Setting the monospace font to IBM Plex Mono
+\setmonofont{IBMPlexMono-Regular}[
+  Extension      = .otf ,
+  BoldFont       = IBMPlexMono-Bold,
+  ItalicFont     = IBMPlexMono-Italic,
+  BoldItalicFont = IBMPlexMono-BoldItalic
+]
+```
 
 
