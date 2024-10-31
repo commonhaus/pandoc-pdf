@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1
-FROM pandoc/extra:edge
+FROM docker.io/pandoc/extra:edge
 
 ENV TERM=xterm
 
@@ -31,6 +31,7 @@ RUN tlmgr update --self \
       eso-pic \
       koma-script \
       lastpage \
+      lineno \
       minted \
       moresize \
       newunicodechar \
