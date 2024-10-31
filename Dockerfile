@@ -45,6 +45,7 @@ RUN tlmgr update --self \
       titlesec \
       tocloft \
       ucs \
+      xargs \
       xcolor-material \
       xstring \
   && luaotfload-tool --update \
