@@ -21,6 +21,13 @@ RUN apk add --no-cache \
     zip \
     && rm -rf /var/cache/apk/*
 
+COPY fonts/Figtree,IBM_Plex_Mono,IBM_Plex_Sans.zip /tmp
+RUN mkdir -p /tmp/fonts \
+  && mkdir -p /usr/local/share/fonts \
+  && unzip /tmp/Figtree,IBM_Plex_Mono,IBM_Plex_Sans.zip -d /tmp/fonts \
+  && find /tmp/fonts -name '*.ttf' -exec cp {} /usr/local/share/fonts \; \
+  && fc-cache -fv
+
 RUN tlmgr update --self \
   && tlmgr install \
       catchfile \
