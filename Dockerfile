@@ -39,6 +39,7 @@ RUN tlmgr update --self \
       pgf \
       pgfopts \
       plex \
+      reledmac \
       sectsty \
       sourcecodepro \
       titlesec \
