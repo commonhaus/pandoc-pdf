@@ -51,7 +51,6 @@ RUN tlmgr update --self \
   && luaotfload-tool --update \
   && chmod o+w /opt/texlive/texdir/texmf-var 
 
-  COPY fix-document.sh /fix-document.sh
   COPY fonts/Figtree,IBM_Plex_Mono,IBM_Plex_Sans.zip /tmp
   RUN mkdir -p /tmp/fonts \
     && mkdir -p /usr/local/share/fonts \
