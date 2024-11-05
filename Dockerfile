@@ -7,6 +7,7 @@ RUN apk add --no-cache \
     bash \
     curl \
     git \
+    inkscape \
     make \
     ncurses \
     perl \
