@@ -42,6 +42,7 @@ RUN tlmgr update --self \
       reledmac \
       sectsty \
       sourcecodepro \
+      svg \
       titlesec \
       tocloft \
       ucs \
