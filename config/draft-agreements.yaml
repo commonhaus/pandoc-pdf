@@ -1,0 +1,13 @@
+from: gfm+emoji+alerts
+reader: gfm+emoji+alerts
+number-sections: true
+file-scope: true
+filters:
+- /commonhaus/filters/fix-links.lua
+- /commonhaus/filters/agreement-form.lua
+metadata-file: CONTACTS.yaml
+reference-doc: /commonhaus/content/cf-draft-agreement-template.docx
+template: /commonhaus/content/docx-template.txt
+shift-heading-level-by: -1
+variables:
+  website: https://www.commonhaus.org/

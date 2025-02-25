@@ -1,5 +1,16 @@
 # Pandoc + Emoji filter
 
+## Formatting
+
+Config, content, and filters are provided for standard Commonhaus formatting.
+
+`run-pandoc.sh` is not included in the container. 
+
+Use it to launch the container locally. A variant is used by GitHub Actions in the 
+Commonhaus Foundation repository to generate pdf and docx files for Bylaws, Policies, 
+and Agreements.
+
+## Font settings
 
 ```tex
 \directlua{luaotfload.add_fallback
