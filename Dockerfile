@@ -53,11 +53,13 @@ RUN tlmgr update --self \
   && luaotfload-tool --update \
   && chmod o+w /opt/texlive/texdir/texmf-var 
 
-  COPY fonts/Figtree,IBM_Plex_Mono,IBM_Plex_Sans.zip /tmp
-  RUN mkdir -p /tmp/fonts \
+COPY fonts/Figtree,IBM_Plex_Mono,IBM_Plex_Sans.zip /tmp
+RUN mkdir -p /tmp/fonts \
     && mkdir -p /usr/local/share/fonts \
     && unzip /tmp/Figtree,IBM_Plex_Mono,IBM_Plex_Sans.zip -d /tmp/fonts \
     && find /tmp/fonts -name '*.ttf' -exec cp {} /usr/local/share/fonts \; \
     && fc-cache -fv
+
+COPY pandoc /commonhaus/pandoc
 
 ENTRYPOINT ["pandoc"]

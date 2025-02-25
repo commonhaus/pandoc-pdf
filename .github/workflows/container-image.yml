@@ -10,7 +10,6 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  TAG: "3.1"
 
 jobs:
 
@@ -31,13 +30,19 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+    - name: Read version from version.yml
+      id: read_version
+      run: |
+        VERSION=$(yq e '.release.current-version' .github/version.yml)
+        echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+
     - name: Extract metadata (tags, labels) for Docker
       id: meta
       uses: docker/metadata-action@v4
       with:
         images: ${{ github.repository }}
         tags: |
-          type=raw,enable=true,priority=200,prefix=,suffix=,value=${{ env.TAG }}
+          type=raw,enable=true,priority=200,prefix=,suffix=,value=${{ env.VERSION }}
 
     - name: Log in to the Container registry
       if: ${{needs.main-root.outputs.is-main}}
@@ -60,6 +65,6 @@ jobs:
       if: ${{needs.main-root.outputs.is-main}}
       id: publish-oci
       run: |
-        image="${IMAGE_NAME}:${TAG}"
+        image="${IMAGE_NAME}:${VERSION}"
         docker tag "${image}" "ghcr.io/${image}"
         docker push "ghcr.io/${image}"

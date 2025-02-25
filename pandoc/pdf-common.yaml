@@ -1,0 +1,28 @@
+from: gfm+emoji+alerts
+reader: gfm+emoji+alerts
+file-scope: true
+filters:
+- /commonhaus/pandoc/filters/alerts.lua
+- /commonhaus/pandoc/filters/fix-links.lua
+include-in-header:
+- /commonhaus/pandoc/content/header.tex
+include-after-body:
+- /commonhaus/pandoc/content/afterBody.tex
+number-sections: true
+pdf-engine: lualatex
+pdf-engine-opts:
+  - '-shell-escape'
+template: /commonhaus/pandoc/content/commonhaus-eisvogel
+metadata-file: CONTACTS.yaml
+variables:
+  geometry: margin=1in
+  colorlinks: true
+  listings: true
+  hyperrefoptions:
+  - linktoc=all
+  - pdfencoding=unicode
+  - linktocpage
+  - bookmarks=true
+  - bookmarksnumbered=true
+  - bookmarksopen
+  website: https://www.commonhaus.org/

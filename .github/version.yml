@@ -1,0 +1,4 @@
+name: TTRPG Convert CLI
+release:
+  current-version: edge-3
+toggle: false
