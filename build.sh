@@ -1,8 +1,8 @@
-#!/bin/bash -x
+#!/bin/bash
 
 # Docker image for pandoc
 if [[ -z "${PANDOCK}" ]]; then
-    PANDOCK=ghcr.io/commonhaus/pandoc-pdf:latest
+    PANDOCK=ghcr.io/commonhaus/pandoc-pdf:edge-3
 fi
 
 DATE=$(date "+%Y-%m-%d")
@@ -39,8 +39,13 @@ function run_pandoc() {
 
 # Convert markdown to PDF
 function run_pdf() {
+    mkdir -p pdf-tmp
+
     ${DOCKER} run ${ARGS} \
         "${PANDOCK}" \
+        --pdf-engine-opt=--output-directory=./pdf-tmp \
+        --pdf-engine-opt=-output-dir=./pdf-tmp \
+        --pdf-engine-opt=-outdir=./pdf-tmp \
         -d /commonhaus/pandoc/pdf-common.yaml \
         -M date-meta:"$(date +%B\ %d,\ %Y)" \
         -V footer-left:"${FOOTER}" \
@@ -111,11 +116,8 @@ Notes:
 Building a PDF of our bylaws:
 
     $0 pdf \\
-        --pdf-engine-opt=--output-directory=./output/tmp/cf-bylaws \\
-        --pdf-engine-opt=-output-dir=./output/tmp/cf-bylaws \\
-        --pdf-engine-opt=-outdir=./output/tmp/cf-bylaws \\
         -V dirname:./bylaws/ \\
-        -o ./output/public/cf-bylaws.pdf \\
+        -o ./cf-bylaws.pdf \\
         --toc=true --toc-depth=3 \\
         -M title:Bylaws \\
         ./bylaws/1-preface.md ./bylaws/2-purpose.md ./bylaws/3-cf-membership.md \\
@@ -126,26 +128,24 @@ Building a PDF of our bylaws:
 Building a PDF for a policy:
 
     $0 pdf \\
-        --pdf-engine-opt=--output-directory=./output/tmp/conflict-of-interest \\
-        --pdf-engine-opt=-output-dir=./output/tmp/conflict-of-interest \\
-        --pdf-engine-opt=-outdir=./output/tmp/conflict-of-interest \\
         -V dirname:./policies/ \\
-        -o ./output/public/conflict-of-interest.pdf \\
+        -o ./conflict-of-interest.pdf \\
         -M 'title:Conflict of Interest Policy' \\
         ./policies/conflict-of-interest.md
 
 Building a PDF for an agreement:
 
     $0 pdf \\
-        --pdf-engine-opt=--output-directory=./output/tmp/asset-transfer-agreement \\
-        --pdf-engine-opt=-output-dir=./output/tmp/asset-transfer-agreement \\
-        --pdf-engine-opt=-outdir=./output/tmp/asset-transfer-agreement \\
-        -V dirname:asset-transfer-agreement.md \\
-        -o ./output/public/asset-transfer-agreement.pdf \\
+        -V dirname:./agreements/... \\
+        -o ./asset-transfer-agreement.pdf \\
         -d /commonhaus/pandoc/agreements-pdf.yaml \\
         -M 'title:Asset Transfer Agreement' \\
         -M bodyTitle:true \\
         ./agreements/project-contribution/asset-transfer-agreement.md
+
+Note that dirname is the relative path to the file within the 
+commonhaus/foundation repository. It is used by a filter to resolve 
+intra-repository links.
 HELP
 exit
 fi
@@ -164,9 +164,11 @@ if [[ "${TO_CMD}" == "raw" ]]; then
 fi
 
 if [[ ! -f CONTACTS.yaml ]]; then
-    echo "Please ensure that a copy of CONTACTS.yaml is available in the current
-working directory for resolution of mailing list links."
-    exit 1
+    if ! wget https://raw.githubusercontent.com/commonhaus/foundation/refs/heads/main/CONTACTS.yaml; then
+        echo "Please ensure that a copy of CONTACTS.yaml is available in the current
+    working directory for resolution of mailing list links."
+        exit 1
+    fi
 fi
 
 # Invoke pandoc with common docker arguments
