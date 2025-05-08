@@ -17,18 +17,19 @@ wget https://raw.githubusercontent.com/commonhaus/pandoc-pdf/refs/heads/main/bui
 ./build.sh raw --help
 ```
 
-## Asset transfer agreement
+## Agreements
+
+> [!NOTE]
+> `dirname` is the relative path to the file within the commonhaus/foundation repository.
+> It is used by a filter to resolve intra-repository links.
+
+### Asset transfer agreement
 
 ```console
 ./build.sh docx \
     -V dirname:./agreements/project-contribution/ \
     -o ./asset-transfer-agreement.docx \
       ./asset-transfer-agreement.md
-
-./build.sh docx \
-    -V dirname:./agreements/project-contribution/ \
-    -o ./fiscal-sponsorship-agreement.docx \
-      ./fiscal-sponsorship-agreement.md
 
 # There are a few more settings specifically for agreements (vs policies or bylaws):
 
@@ -41,9 +42,25 @@ wget https://raw.githubusercontent.com/commonhaus/pandoc-pdf/refs/heads/main/bui
     ./asset-transfer-agreement.md
 ```
 
-> [!NOTE]
-> `dirname` is the relative path to the file within the commonhaus/foundation repository.
-> It is used by a filter to resolve intra-repository links.
+### Fiscal Sponsorship agreement
+
+```console
+./build.sh docx \
+    -V dirname:./agreements/project-contribution/ \
+    -o ./fiscal-sponsorship-agreement.docx \
+      ./fiscal-sponsorship-agreement.md
+
+# There are a few more settings specifically for agreements (vs policies or bylaws):
+
+./build.sh pdf \
+    -V dirname:./agreements/project-contribution/ \
+    -o ./fiscal-sponsorship-agreement.pdf \
+    -d /commonhaus/pandoc/agreements-pdf.yaml \
+    -M 'title:Fiscal Sponsorship Agreement' \
+    -M bodyTitle:true \
+    ./fiscal-sponsorship-agreement.md
+```
+
 
 ## Tex configuration
 
